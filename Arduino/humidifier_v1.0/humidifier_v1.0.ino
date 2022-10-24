@@ -40,6 +40,7 @@ void loop()
 bool WaterLvl(int pin)
 {
   int val = analogRead(pin);
+  Serial.print("val : ")
   Serial.println(val);
   if(val > water_lvl_snsr_threshold) return  true;
   else return false;
