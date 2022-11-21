@@ -3,8 +3,8 @@
 #define water_lvl_low A0
 #define water_lvl_high A2
 
-int temp_val = 0, water_lvl = 0,
-water_lvl_snsr_threshold = 400;
+int water_lvl = 0,
+    water_lvl_snsr_threshold = 400;
 
 void setup()
 {
@@ -40,7 +40,7 @@ void loop()
 bool WaterLvl(int pin)
 {
   int val = analogRead(pin);
-  Serial.print("val : ")
+  Serial.print("val : ");
   Serial.println(val);
   if(val > water_lvl_snsr_threshold) return  true;
   else return false;

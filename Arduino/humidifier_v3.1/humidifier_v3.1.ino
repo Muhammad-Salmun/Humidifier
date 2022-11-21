@@ -21,7 +21,7 @@ long  session_start_time=0,
       session_time=1800,  // time in sec 
       fill_start_time=0;
 
-bool  coil_on = false, chamber_empty = false;;
+bool  coil_on = false, chamber_empty = false;
 
 /////////////////////////////////void setup ///////////////////////////////
 void setup()
@@ -50,7 +50,8 @@ void loop()
       digitalWrite(Coil,HIGH); //turn OFF coil
       coil_on = false;
     }
-    else if(coil_on && room_temp < min_temp)  fillChamber();
+    else if(coil_on) fillChamber();
+    else if(room_temp < min_temp)  fillChamber();
   }
   else  endSession();
 }
