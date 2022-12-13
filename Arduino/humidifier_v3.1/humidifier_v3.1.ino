@@ -2,7 +2,7 @@
 #include <DallasTemperature.h>
 
 // pins connected on the Arduino 
-#define ONE_WIRE_BUS 2
+#define ONE_WIRE_BUS 7
 #define Buzzer 3
 #define Coil 11
 #define Valve 12
@@ -15,7 +15,7 @@ DallasTemperature sensors(&oneWire);
 
 // intitialising global variables
 int   water_lvl = 0, water_lvl_snsr_threshold = 400, 
-      room_temp = 0, min_temp = 30, max_temp = 45;
+      room_temp = 0, min_temp = 45, max_temp = 60;
 
 long  session_start_time=0, 
       session_time=1800,  // time in sec 
@@ -57,20 +57,24 @@ void loop()
 }
 
 ////////////////////////////////////// void fillChamber ///////////////////////
-// fill water if chamber is empty
+// fill water if chamber is empty and also control the coil
 void fillChamber()
 {
   // if chamber is empty
-  if(!WaterPresent(water_lvl_low))
-  {
-    chamber_empty = true;
-    fill_start_time = millis();
-    digitalWrite(Valve,LOW);  // starts water
+  if(!WaterPresent(water_lvl_low)){
+    delay(1000);
+    if(!WaterPresent(water_lvl_low))
+    {
+      chamber_empty = true;
+      fill_start_time = millis();
+      digitalWrite(Valve,LOW);  // starts water
+      delay(500);
+    }
   }
   // starts filling the chamber until full
   while(chamber_empty)
   {
-    if((millis() - fill_start_time) > 1000 && coil_on)
+    if((millis() - fill_start_time) > 3000 && coil_on)
     {
       digitalWrite(Coil,HIGH); //turn OFF coil
       coil_on = false;
